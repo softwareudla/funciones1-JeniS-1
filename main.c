@@ -6,21 +6,22 @@
 int main (int argc, char *argv[]) {
     char productos[NumProduct][30];
     float precios[NumProduct];
+    int cantidades[NumProduct]; 
     int num_ingresados = 0;
     int opcion;
     int continuar;
     
     printf("Sistema de Gestion de Inventario de una Tienda\n");
     do {
-        num_ingresados = ingresarProductos(productos, precios);
+        num_ingresados = ingresarProductos(productos, precios, cantidades);
 
-        //Menú de opciones
+        // Menú de opciones
         do {
             opcion = menu();  
 
             switch(opcion) {
                 case 1:
-                    mostrarResultados(precios, num_ingresados);
+                    mostrarResultados(precios, cantidades, num_ingresados);  
                     break;
                 case 2:
                     buscarProducto(productos, precios, num_ingresados);
@@ -38,7 +39,7 @@ int main (int argc, char *argv[]) {
         scanf("%d", &continuar);
         getchar(); 
 
-    } while(continuar == 1 ); 
+    } while(continuar == 1); 
     return 0;
 }
 

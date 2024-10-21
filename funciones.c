@@ -17,7 +17,7 @@ int menu() {
 }
 
 
-int ingresarProductos(char productos[NumProduct][30], float precios[NumProduct]) {
+int ingresarProductos(char productos[NumProduct][30], float precios[NumProduct], int cantidades[NumProduct]) {
     int num_ingresados = 0;
     int continuar;
 
@@ -26,9 +26,13 @@ int ingresarProductos(char productos[NumProduct][30], float precios[NumProduct])
         printf("Ingrese el nombre del producto %d: ", num_ingresados + 1);
         fgets(productos[num_ingresados], 30, stdin);
 
-        printf("Ingrese el precio del producto %d: ", num_ingresados + 1);
+        printf("Ingrese el precio unitario del producto %d: ", num_ingresados + 1);
         scanf("%f", &precios[num_ingresados]);  
-        getchar(); 
+        getchar();
+
+        printf("Ingrese la cantidad del producto %d: ", num_ingresados + 1);
+        scanf("%d", &cantidades[num_ingresados]);
+        getchar();
 
         num_ingresados++;
 
@@ -42,31 +46,34 @@ int ingresarProductos(char productos[NumProduct][30], float precios[NumProduct])
         }
     }
 
-    return num_ingresados;  // Devuelve cuántos productos se ingresaron
+    return num_ingresados;  \
 }
 
-void mostrarResultados(float precios[NumProduct], int num_ingresados) {
+void mostrarResultados(float precios[NumProduct], int cantidades[NumProduct], int num_ingresados) {
     if (num_ingresados == 0) {
         printf("No hay productos ingresados\n");
         return;
     }
 
-    float total= 0, maximo= precios[0], minimo= precios[0];
+    float total = 0;
+    float maximo = precios[0], minimo = precios[0];
+    int total_productos = 0;
 
     for (int i = 0; i < num_ingresados; i++) {
-        total += precios[i];
+        total += precios[i] * cantidades[i];  
+        total_productos += cantidades[i];  
+
         if (precios[i] > maximo) maximo = precios[i];
         if (precios[i] < minimo) minimo = precios[i];
     }
 
-    float promedio= total / num_ingresados;
+    float promedio = total / total_productos;  // Promedio 
 
     printf("El precio total de los productos es: %.2f\n", total);
-    printf("El producto mas caro es: %.2f\n", maximo);
-    printf("El producto mas barato es: %.2f\n", minimo);
-    printf("El promedio de los precios es: %.2f\n", promedio);
+    printf("El producto más caro (unitario) es: %.2f\n", maximo);
+    printf("El producto más barato (unitario) es: %.2f\n", minimo);
+    printf("El promedio de los precios (ponderado por cantidad) es: %.2f\n", promedio);
 }
-
 
 void buscarProducto(char productos[NumProduct][30], float precios[NumProduct], int num_ingresados) {
     if (num_ingresados == 0) {
